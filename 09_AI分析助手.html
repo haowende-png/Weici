@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>维词APP - AI分析助手优化版</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; 
+            background: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app-frame { 
+            width: 375px; 
+            height: 667px; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 头部 */
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .back-btn {
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        /* 单词信息 */
+        .word-info {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .word-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .word {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .pronunciation {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .error-history {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .error-count {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        /* AI分析结果 */
+        .analysis-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .analysis-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-icon {
+            color: #007aff;
+        }
+        
+        .analysis-text {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        /* 推荐练习 */
+        .recommend-practice {
+            background: #e7f3ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        
+        .practice-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007aff;
+            margin-bottom: 8px;
+        }
+        
+        .practice-desc {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .start-practice-btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        /* 操作按钮 */
+        .action-buttons {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .add-review-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .share-btn {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="back-btn" onclick="goBack()">←</div>
+            <div class="page-title">AI错题分析</div>
+            <div style="width: 24px;"></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 单词信息 -->
+        <div class="word-info">
+            <div class="word-header">
+                <div class="word">abandon</div>
+                <div class="pronunciation">/əˈbændən/</div>
+            </div>
+            <div class="error-history">
+                错误历史：<span class="error-count">3次错误</span>（最近：2024-03-10）
+            </div>
+        </div>
+        
+        <!-- AI分析结果 -->
+        <div class="analysis-content">
+            <!-- 错误原因分析 -->
+            <div class="analysis-section">
+                <div class="section-title">
+                    <span class="ai-icon">🤖</span>
+                    <span>错误原因分析</span>
+                </div>
+                <div class="analysis-text">
+                    你经常将 <span class="highlight">abandon（放弃）</span> 与 <span class="highlight">ability（能力）</span> 混淆。
+                    这可能是因为两个单词都以"ab-"开头，且都是高频词汇。
+                    
+                    <br><br>
+                    <strong>记忆建议：</strong> abandon 的"band"部分可以联想为"乐队解散"，帮助记忆"放弃"的含义。
+                </div>
+            </div>
+            
+            <!-- 推荐练习 -->
+            <div class="analysis-section">
+                <div class="section-title">
+                    <span class="ai-icon">💡</span>
+                    <span>推荐练习</span>
+                </div>
+                
+                <div class="recommend-practice" onclick="startPractice('similar-words')">
+                    <div class="practice-title">易混淆词汇专项</div>
+                    <div class="practice-desc">包含 abandon/ability/absorb/absolute 等易混词对比练习</div>
+                    <button class="start-practice-btn">开始练习</button>
+                </div>
+                
+                <div class="recommend-practice" onclick="startPractice('context-sentence')">
+                    <div class="practice-title">语境填空练习</div>
+                    <div class="practice-desc">在完整句子中练习 abandon 的正确用法</div>
+                    <button class="start-practice-btn">开始练习</button>
+                </div>
+            </div>
+            
+            <!-- 学习建议 -->
+            <div class="analysis-section">
+                <div class="section-title">
+                    <span class="ai-icon">📚</span>
+                    <span>学习建议</span>
+                </div>
+                <div class="analysis-text">
+                    1. <strong>词根记忆：</strong> abandon = a-（到）+ bandon（控制）→ "放弃控制"
+                    <br><br>
+                    2. <strong>联想记忆：</strong> 乐队（band）解散 → abandon（放弃）
+                    <br><br>
+                    3. <strong>真题重点：</strong> 在高考中常考"abandon oneself to"（沉溺于）的用法
+                </div>
+            </div>
+        </div>
+        
+        <!-- 操作按钮 -->
+        <div class="action-buttons">
+            <button class="action-btn add-review-btn" onclick="addToReview()">
+                <span>➕</span>
+                <span>加入复习</span>
+            </button>
+            <button class="action-btn share-btn" onclick="shareAnalysis()">
+                <span>📤</span>
+                <span>分享分析</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // 返回
+        function goBack() {
+            console.log("返回上一页");
+            // window.history.back();
+            alert("返回错题本或讲解页");
+        }
+        
+        // 开始练习
+        function startPractice(type) {
+            const practiceMap = {
+                'similar-words': '易混淆词汇专项',
+                'context-sentence': '语境填空练习'
+            };
+            
+            const practiceName = practiceMap[type] || '推荐练习';
+            console.log(`开始练习：${practiceName}`);
+            
+            alert(`开始${practiceName}\n完成后将返回此页面`);
+            
+            // 模拟练习完成
+            setTimeout(() => {
+                alert(`✅ ${practiceName}完成！\n正确率：85%`);
+            }, 2000);
+        }
+        
+        // 加入复习
+        function addToReview() {
+            console.log("将错题加入今日复习");
+            
+            // 显示加载状态
+            const btn = document.querySelector('.add-review-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '添加中...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert("✅ 已成功将'abandon'加入今日复习计划");
+                
+                // 恢复按钮
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 1000);
+        }
+        
+        // 分享分析
+        function shareAnalysis() {
+            console.log("分享AI分析结果");
+            alert("分享AI错题分析\n可分享到微信、QQ等");
+        }
+        
+        // 模拟从错题本进入时的数据
+        window.addEventListener('load', () => {
+            // 从URL获取单词参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const word = urlParams.get('word') || 'abandon';
+            
+            console.log(`分析单词：${word}`);
+            console.log("从错题本进入，可查看完整错误历史");
+            
+            // 实际：根据单词获取错误历史数据
+        });
+        
+        console.log("🎯 AI分析助手改进特点：");
+        console.log("1. 完整错误历史：从错题本进入时可查看该单词的完整错误历史");
+        console.log("2. 推荐练习可点击：点击直接开始练习，完成后返回");
+        console.log("3. 加入复习按钮：将该题加入今日复习计划");
+        console.log("4. AI深度分析：错误原因、记忆建议、学习策略");
+        console.log("5. 实用导向：分析结果直接指导学习行动");
+    </script>
+</body>
+</html>

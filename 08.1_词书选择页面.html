@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>维词APP - 词书选择优化版</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; 
+            background: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app-frame { 
+            width: 375px; 
+            height: 667px; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 头部 */
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .close-btn {
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        /* 搜索栏 */
+        .search-bar {
+            padding: 16px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #007aff;
+        }
+        
+        /* 词书列表 */
+        .book-list {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .book-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .book-item {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .book-item:hover {
+            border-color: #007aff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .book-item.current {
+            border-color: #007aff;
+            background: #e7f3ff;
+        }
+        
+        .book-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .book-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .book-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .status-downloaded {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-not-downloaded {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .book-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .book-stats {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 确认按钮 */
+        .confirm-btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        
+        .confirm-btn:hover {
+            background: #0056cc;
+        }
+        
+        .confirm-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="page-title">选择词书</div>
+            <div class="close-btn" onclick="closePage()">×</div>
+        </div>
+        
+        <!-- 搜索栏 -->
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="搜索词书..." id="searchInput">
+        </div>
+        
+        <!-- 词书列表 -->
+        <div class="book-list">
+            <!-- 当前词书 -->
+            <div class="book-section">
+                <div class="section-title">当前词书</div>
+                
+                <div class="book-item current" onclick="selectBook('pep-high-school')">
+                    <div class="book-header">
+                        <div class="book-name">人教版高中英语</div>
+                        <div class="book-status status-downloaded">已下载</div>
+                    </div>
+                    <div class="book-info">覆盖高考大纲3500词，按单元分类</div>
+                    <div class="book-stats">3500词 · 60单元 · 更新于2024.01</div>
+                </div>
+            </div>
+            
+            <!-- 热门词书 -->
+            <div class="book-section">
+                <div class="section-title">热门词书</div>
+                
+                <div class="book-item" onclick="selectBook('oxford-3000')">
+                    <div class="book-header">
+                        <div class="book-name">牛津3000核心词汇</div>
+                        <div class="book-status status-downloaded">已下载</div>
+                    </div>
+                    <div class="book-info">英语学习最常用的3000个单词</div>
+                    <div class="book-stats">3000词 · 按使用频率排序</div>
+                </div>
+                
+                <div class="book-item" onclick="selectBook('cet-4')">
+                    <div class="book-header">
+                        <div class="book-name">大学英语四级词汇</div>
+                        <div class="book-status status-not-downloaded">未下载</div>
+                    </div>
+                    <div class="book-info">CET-4考试必备词汇，含真题例句</div>
+                    <div class="book-stats">4500词 · 需下载 128MB</div>
+                </div>
+            </div>
+            
+            <!-- 更多词书 -->
+            <div class="book-section">
+                <div class="section-title">更多词书</div>
+                
+                <div class="book-item" onclick="selectBook('toefl-core')">
+                    <div class="book-header">
+                        <div class="book-name">托福核心词汇</div>
+                        <div class="book-status status-not-downloaded">未下载</div>
+                    </div>
+                    <div class="book-info">托福考试高频词汇，学术英语</div>
+                    <div class="book-stats">5000词 · 需下载 156MB</div>
+                </div>
+                
+                <div class="book-item" onclick="selectBook('ielts-writing')">
+                    <div class="book-header">
+                        <div class="book-name">雅思写作词汇</div>
+                        <div class="book-status status-not-downloaded">未下载</div>
+                    </div>
+                    <div class="book-info">雅思写作高分词汇，话题分类</div>
+                    <div class="book-stats">1200词 · 需下载 45MB</div>
+                </div>
+                
+                <div class="book-item" onclick="selectBook('business-english')">
+                    <div class="book-header">
+                        <div class="book-name">商务英语词汇</div>
+                        <div class="book-status status-not-downloaded">未下载</div>
+                    </div>
+                    <div class="book-info">职场商务沟通常用词汇</div>
+                    <div class="book-stats">2000词 · 需下载 78MB</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 确认按钮 -->
+        <button class="confirm-btn" id="confirmBtn" onclick="confirmSelection()" disabled>
+            确认选择
+        </button>
+    </div>
+    
+    <script>
+        // 当前选中的词书
+        let selectedBookId = null;
+        let currentBookId = 'pep-high-school';
+        
+        // 选择词书
+        function selectBook(bookId) {
+            // 清除之前的选择
+            document.querySelectorAll('.book-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 标记当前选择（排除当前词书）
+            if (bookId !== currentBookId) {
+                const selectedItem = event.target.closest('.book-item');
+                selectedItem.classList.add('selected');
+                selectedBookId = bookId;
+                
+                // 启用确认按钮
+                document.getElementById('confirmBtn').disabled = false;
+                
+                console.log(`选择词书：${bookId}`);
+            } else {
+                // 如果选择的是当前词书，禁用确认按钮
+                selectedBookId = null;
+                document.getElementById('confirmBtn').disabled = true;
+                alert("当前正在使用此词书");
+            }
+        }
+        
+        // 确认选择
+        function confirmSelection() {
+            if (!selectedBookId) {
+                alert("请先选择一个词书");
+                return;
+            }
+            
+            const bookName = document.querySelector('.book-item.selected .book-name').textContent;
+            
+            console.log(`确认选择词书：${selectedBookId} - ${bookName}`);
+            
+            // 显示加载状态
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.textContent = '切换中...';
+            confirmBtn.disabled = true;
+            
+            // 模拟切换过程
+            setTimeout(() => {
+                alert(`✅ 已成功切换到《${bookName}》\n\n学习任务将根据新词书重新生成`);
+                
+                // 实际：更新用户词书设置，重新生成学习计划
+                // localStorage.setItem('currentBook', selectedBookId);
+                
+                // 返回首页
+                closePage();
+                
+                // 恢复按钮状态
+                confirmBtn.textContent = '确认选择';
+                confirmBtn.disabled = false;
+            }, 1500);
+        }
+        
+        // 关闭页面
+        function closePage() {
+            console.log("关闭词书选择页面，返回首页");
+            
+            // 实际：返回首页并更新顶部词书显示
+            // window.location.href = '05_老用户首页.html?bookUpdated=true';
+            
+            // 模拟返回
+            alert("返回首页，顶部词书显示已更新");
+        }
+        
+        // 搜索功能
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const bookItems = document.querySelectorAll('.book-item');
+            
+            bookItems.forEach(item => {
+                const bookName = item.querySelector('.book-name').textContent.toLowerCase();
+                const bookInfo = item.querySelector('.book-info').textContent.toLowerCase();
+                
+                if (bookName.includes(searchTerm) || bookInfo.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        console.log("🎯 词书选择页面改进特点：");
+        console.log("1. 下载状态显示：已下载/未下载，方便离线学习");
+        console.log("2. 确认后返回首页：点击确认后返回首页");
+        console.log("3. 更新顶部显示：首页顶部词书显示会更新");
+        console.log("4. 重新生成任务：学习任务根据新词书重新生成");
+        console.log("5. 搜索功能：支持搜索词书名称和描述");
+        console.log("6. 当前词书标记：当前使用的词书有特殊标记");
+        console.log("7. 下载大小提示：未下载词书显示下载大小");
+    </script>
+</body>
+</html>

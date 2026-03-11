@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>维词APP - 诊断报告</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; 
+            background: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app-frame { 
+            width: 375px; 
+            height: 667px; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 头部 */
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 4px;
+        }
+        
+        /* 内容区域 */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        /* 总分卡片 */
+        .score-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .score-title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .score-value {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .score-compare {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #007aff;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 2px;
+            background: #007aff;
+            border-radius: 1px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* 掌握全景 */
+        .mastery-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+        
+        .progress-item {
+            margin-bottom: 16px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        /* 标签分析 */
+        .tags-section {
+            margin-bottom: 24px;
+        }
+        
+        .tags-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .tag-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .tag-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .tag-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .tag-percent {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007aff;
+        }
+        
+        /* 薄弱点 */
+        .weakness-section {
+            margin-bottom: 24px;
+        }
+        
+        .weakness-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .weakness-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        
+        .weakness-desc {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        /* 底部操作 */
+        .action-section {
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .share-btn {
+            background: white;
+            color: #007aff;
+            border: 1px solid #007aff;
+        }
+        
+        /* 分享提示 */
+        .share-hint {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="back-btn" onclick="goBack()">←</div>
+            <div class="page-title">你的诊断报告</div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content">
+            <!-- 总分卡片 -->
+            <div class="score-card">
+                <div class="score-title">高考预测分</div>
+                <div class="score-value">118分</div>
+                <div class="score-compare">高于同年级65%考生</div>
+            </div>
+            
+            <!-- 标签页 -->
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab(0)">掌握全景</div>
+                <div class="tab" onclick="switchTab(1)">标签分析</div>
+                <div class="tab" onclick="switchTab(2)">薄弱点</div>
+            </div>
+            
+            <!-- 掌握全景 -->
+            <div class="tab-content active" id="tab0">
+                <div class="mastery-section">
+                    <div class="section-title">📊 词汇掌握度</div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>基础词义</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%; background: #28a745;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>熟词生义</span>
+                            <span>40%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%; background: #dc3545;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>固定搭配</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%; background: #ffc107;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-item">
+                        <div class="progress-label">
+                            <span>词形变化</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%; background: #17a2b8;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 标签分析 -->
+            <div class="tab-content" id="tab1">
+                <div class="tags-section">
+                    <div class="section-title">🏷️ 标签掌握度</div>
+                    
+                    <div class="tags-grid">
+                        <div class="tag-item">
+                            <div class="tag-header">
+                                <div class="tag-name">必考词汇</div>
+                                <div class="tag-percent">68%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%; background: #007aff;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="tag-item">
+                            <div class="tag-header">
+                                <div class="tag-name">高频词汇</div>
+                                <div class="tag-percent">72%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 72%; background: #ff9500;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="tag-item">
+                            <div class="tag-header">
+                                <div class="tag-name">易错词汇</div>
+                                <div class="tag-percent">45%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%; background: #ff3b30;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="tag-item">
+                            <div class="tag-header">
+                                <div class="tag-name">阅读高频</div>
+                                <div class="tag-percent">58%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 58%; background: #34c759;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="tag-item">
+                            <div class="tag-header">
+                                <div class="tag-name">写作必备</div>
+                                <div class="tag-percent">52%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 52%; background: #af52de;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 薄弱点 -->
+            <div class="tab-content" id="tab2">
+                <div class="weakness-section">
+                    <div class="section-title">🎯 核心薄弱点</div>
+                    
+                    <div class="weakness-item">
+                        <div class="weakness-title">• 熟词生义（掌握度40%）</div>
+                        <div class="weakness-desc">重点词：run/book/last/approach</div>
+                    </div>
+                    
+                    <div class="weakness-item">
+                        <div class="weakness-title">• 非谓语动词（掌握度35%）</div>
+                        <div class="weakness-desc">重点：abandon doing/to do</div>
+                    </div>
+                    
+                    <div class="weakness-item">
+                        <div class="weakness-title">• 固定搭配（掌握度60%）</div>
+                        <div class="weakness-desc">重点：take up/take on/take over</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分享提示 -->
+            <div class="share-hint">
+                分享报告给好友，一起进步！
+            </div>
+        </div>
+        
+        <!-- 底部操作 -->
+        <div class="action-section">
+            <button class="action-btn share-btn" onclick="shareReport()">
+                分享报告
+            </button>
+            <button class="action-btn" onclick="startLearning()">
+                开始学习
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // 切换标签页
+        function switchTab(index) {
+            // 切换标签
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            
+            // 切换内容
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+            
+            console.log(`切换到标签：${index}`);
+        }
+        
+        // 返回
+        function goBack() {
+            console.log("返回上一页");
+            alert("返回诊断测试");
+        }
+        
+        // 分享报告
+        function shareReport() {
+            console.log("分享诊断报告");
+            
+            // 模拟分享功能
+            const shareData = {
+                title: '我的维词诊断报告',
+                text: `📊 维词诊断报告\n高考预测分：118分\n高于同年级65%考生\n\n核心薄弱点：熟词生义、非谓语动词\n\n一起用维词学习吧！`,
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('分享成功'))
+                    .catch(error => console.log('分享失败:', error));
+            } else {
+                // 备用方案：复制到剪贴板
+                navigator.clipboard.writeText(shareData.text)
+                    .then(() => {
+                        alert('✅ 报告内容已复制到剪贴板\n可以粘贴到微信等应用分享');
+                    })
+                    .catch(err => {
+                        console.error('复制失败:', err);
+                        alert('分享功能暂不可用');
+                    });
+            }
+        }
+        
+        // 开始学习
+        function startLearning() {
+            console.log("开始学习，跳转到首页");
+            
+            // 显示加载状态
+            const startBtn = document.querySelector('.action-btn:not(.share-btn)');
+            const originalText = startBtn.textContent;
+            startBtn.textContent = '准备中...';
+            startBtn.disabled = true;
+            
+            // 模拟加载
+            setTimeout(() => {
+                alert("✅ 开始学习！\n\n已为你生成个性化学习计划\n今日任务：熟词生义专项 + 必考词汇");
+                
+                // 实际跳转
+                // window.location.href = '04_新用户首页_新用户测试后.html?plan=auto';
+                
+                // 恢复按钮状态
+                startBtn.textContent = originalText;
+                startBtn.disabled = false;
+            }, 1000);
+        }
+        
+        // 初始化进度条动画
+        window.addEventListener('load', () => {
+            // 给进度条添加动画效果
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(fill => {
+                    const width = fill.style.width;
+                    fill.style.width = '0';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 100);
+                });
+            }, 300);
+        });
+        
+        console.log("🎯 诊断报告页改进特点：");
+        console.log("1. 参考扇贝学情报告：简洁清晰的数据展示");
+        console.log("2. 标签分析统一：标签掌握度也用进度条+百分比");
+        console.log("3. 底部按钮优化：'开始学习'直接进入首页并展开计划");
+        console.log("4. 社交属性：增加分享功能，可分享报告");
+        console.log("5. 视觉统一：所有数据都用进度条展示，保持一致");
+        console.log("6. 动画效果：进度条有加载动画");
+    </script>
+</body>
+</html>

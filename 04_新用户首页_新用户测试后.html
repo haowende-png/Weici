@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>维词APP - 新用户首页优化版</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; 
+            background: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app-frame { 
+            width: 375px; 
+            height: 667px; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 顶部信息区 */
+        .top-bar {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .brand-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .brand-icon {
+            font-size: 24px;
+            color: #007aff;
+        }
+        
+        .brand-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .date {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 诊断结果迷你卡片 */
+        .diagnosis-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .diagnosis-score {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .diagnosis-compare {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .diagnosis-arrow {
+            font-size: 18px;
+        }
+        
+        /* 核心任务区 */
+        .task-area {
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .total-words {
+            font-size: 64px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .word-breakdown {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 学习计划预览区 */
+        .plan-preview {
+            padding: 0 20px;
+        }
+        
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .plan-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .view-all {
+            font-size: 14px;
+            color: #007aff;
+            cursor: pointer;
+        }
+        
+        .plan-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        
+        .plan-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .plan-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .plan-item-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .plan-text {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .plan-tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .plan-tag.weak {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* 底部导航 */
+        .nav-bar {
+            height: 56px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            margin-top: auto;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #007aff;
+        }
+        
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <!-- 顶部信息区 -->
+        <div class="top-bar">
+            <div class="brand-area">
+                <div class="brand">
+                    <div class="brand-icon">📚</div>
+                    <div class="brand-text">维词·高考洞察</div>
+                </div>
+                <div class="date">3月11日</div>
+            </div>
+            
+            <!-- 诊断结果迷你卡片 -->
+            <div class="diagnosis-card" onclick="viewReport()">
+                <div>
+                    <div class="diagnosis-score">诊断118分</div>
+                    <div class="diagnosis-compare">高于65%考生</div>
+                </div>
+                <div class="diagnosis-arrow">→</div>
+            </div>
+        </div>
+        
+        <!-- 核心任务区 -->
+        <div class="task-area">
+            <div class="total-words">24</div>
+            <div class="word-breakdown">12个新词 · 12个复习</div>
+            <button class="start-btn" onclick="startLearning()">
+                <span>🚀</span>
+                <span>开始今日学习</span>
+            </button>
+        </div>
+        
+        <!-- 学习计划预览区 -->
+        <div class="plan-preview">
+            <div class="plan-header">
+                <div class="plan-title">今日计划预览</div>
+                <div class="view-all" onclick="viewAllPlans()">查看全部</div>
+            </div>
+            
+            <div class="plan-list">
+                <div class="plan-item">
+                    <div class="plan-item-content">
+                        <div class="plan-text">熟词生义专项</div>
+                        <div class="plan-tag weak">薄弱</div>
+                    </div>
+                </div>
+                
+                <div class="plan-item">
+                    <div class="plan-item-content">
+                        <div class="plan-text">必考词汇巩固</div>
+                        <div class="plan-tag">20词</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航 -->
+        <div class="nav-bar">
+            <div class="nav-item active">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">首页</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">📚</div>
+                <div class="nav-label">学习</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">💪</div>
+                <div class="nav-label">练习</div>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">我的</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 查看报告
+        function viewReport() {
+            console.log("查看详细诊断报告");
+            alert("跳转到详细诊断报告页");
+            // window.location.href = '04_诊断报告页.html';
+        }
+        
+        // 开始学习
+        function startLearning() {
+            console.log("开始今日学习");
+            
+            // 显示加载状态
+            const startBtn = document.querySelector('.start-btn');
+            const originalText = startBtn.textContent;
+            startBtn.textContent = '准备中...';
+            startBtn.disabled = true;
+            
+            // 模拟加载
+            setTimeout(() => {
+                alert("🚀 开始今日学习！\n\n今日任务：24个单词\n新词：12个\n复习：12个\n\n根据诊断结果智能安排");
+                
+                // 实际跳转到答题页
+                // window.location.href = '06_答题页.html?mode=daily';
+                
+                // 恢复按钮状态
+                startBtn.textContent = originalText;
+                startBtn.disabled = false;
+            }, 1000);
+        }
+        
+        // 查看全部计划
+        function viewAllPlans() {
+            console.log("查看全部学习计划");
+            alert("跳转到完整学习计划页面");
+            // window.location.href = 'study_plan_full.html';
+        }
+        
+        // 导航栏点击事件
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // 移除所有active状态
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // 设置当前active
+                this.classList.add('active');
+                
+                const label = this.querySelector('.nav-label').textContent;
+                console.log(`切换到：${label}`);
+                
+                // 根据标签跳转
+                switch(label) {
+                    case '首页':
+                        // 当前页面，不跳转
+                        break;
+                    case '学习':
+                        // window.location.href = '06_答题页.html';
+                        break;
+                    case '练习':
+                        // window.location.href = '练习页.html';
+                        break;
+                    case '我的':
+                        // window.location.href = '我的页面.html';
+                        break;
+                }
+            });
+        });
+        
+        console.log("🎯 新用户首页改进特点：");
+        console.log("1. 顶部信息区：左侧品牌标识'维词·高考洞察'，右侧日期");
+        console.log("2. 诊断结果迷你卡片：一行高度，显示分数和排名，点击进入报告");
+        console.log("3. 核心任务区：大数字显示总单词数，分解为新词和复习");
+        console.log("4. 突出按钮：🚀 开始今日学习，延续老用户首页样式");
+        console.log("5. 学习计划预览：简要列出1-2个重点计划，文字+标签");
+        console.log("6. 统一导航：四个标签 [首页][学习][练习][我的]");
+    </script>
+</body>
+</html>

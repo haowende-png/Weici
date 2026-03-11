@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>维词APP - 讲解页优化版</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; 
+            background: #f5f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .app-frame { 
+            width: 375px; 
+            height: 667px; 
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 头部 */
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .word-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .ai-btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        /* AI功能面板 */
+        .ai-panel {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 12px;
+            z-index: 100;
+            display: none;
+        }
+        
+        .ai-panel.show {
+            display: block;
+        }
+        
+        .ai-option {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        .ai-option:hover {
+            background: #f8f9fa;
+        }
+        
+        /* 标签页 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 0 20px;
+        }
+        
+        .tab {
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #007aff;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #007aff;
+        }
+        
+        /* 内容区域 */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* 释义页 */
+        .meaning-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .meaning-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .meaning-text {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .meaning-example {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* 词根词缀（参考扇贝） */
+        .etymology-section {
+            background: #e7f3ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .etymology-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #007aff;
+            margin-bottom: 8px;
+        }
+        
+        .etymology-content {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* 真题标签页 */
+        .exam-section {
+            margin-bottom: 24px;
+        }
+        
+        .exam-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .exam-question {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .exam-answer {
+            font-size: 14px;
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .more-exam-btn {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        
+        /* 底部工具栏 */
+        .toolbar {
+            padding: 16px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .ai-analysis-btn {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <!-- 头部 -->
+        <div class="header">
+            <div class="word-title">abandon</div>
+            <button class="ai-btn" onclick="toggleAIPanel()">🤖</button>
+            
+            <!-- AI功能面板 -->
+            <div class="ai-panel" id="aiPanel">
+                <div class="ai-option" onclick="openAIAnalysis()">
+                    <span>🔍</span>
+                    <span>错题分析</span>
+                </div>
+                <div class="ai-option" onclick="openSentenceCheck()">
+                    <span>✍️</span>
+                    <span>句子批改</span>
+                </div>
+                <div class="ai-option" onclick="openExampleGen()">
+                    <span>✨</span>
+                    <span>生成例句</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 标签页 -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('meaning')">释义</div>
+            <div class="tab" onclick="switchTab('etymology')">词根词缀</div>
+            <div class="tab" onclick="switchTab('exam')">真题</div>
+            <div class="tab" onclick="switchTab('example')">AI例句</div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content">
+            <!-- 释义页 -->
+            <div class="tab-content active" id="meaningTab">
+                <div class="meaning-section">
+                    <div class="section-title">基本释义</div>
+                    <div class="meaning-item">
+                        <div class="meaning-text">v. 放弃，抛弃</div>
+                        <div class="meaning-example">He abandoned his car and continued on foot.</div>
+                    </div>
+                    <div class="meaning-item">
+                        <div class="meaning-text">v. 中止，停止</div>
+                        <div class="meaning-example">The game was abandoned due to rain.</div>
+                    </div>
+                </div>
+                
+                <div class="etymology-section">
+                    <div class="etymology-title">词源记忆</div>
+                    <div class="etymology-content">
+                        来自古法语 abandoner，由 a-（到）+ bandon（控制）组成，字面意思"置于控制之下"，后引申为"放弃控制"。
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 词根词缀页 -->
+            <div class="tab-content" id="etymologyTab">
+                <div class="meaning-section">
+                    <div class="section-title">词根分析</div>
+                    <div class="meaning-item">
+                        <div class="meaning-text">词根：band-（捆绑，控制）</div>
+                        <div class="meaning-example">同根词：bandage（绷带），band（带子）</div>
+                    </div>
+                    <div class="meaning-item">
+                        <div class="meaning-text">前缀：a-（到，向）</div>
+                        <div class="meaning-example">表示方向或状态</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 真题页 -->
+            <div class="tab-content" id="examTab">
+                <div class="exam-section">
+                    <div class="section-title">高考真题</div>
+                    <div class="exam-item">
+                        <div class="exam-question">2023年新课标I卷：He had to ______ his dream of becoming a pilot due to poor eyesight.</div>
+                        <div class="exam-answer">正确答案：abandon</div>
+                    </div>
+                    <div class="exam-item">
+                        <div class="exam-question">2022年全国乙卷：The project was ______ because of lack of funding.</div>
+                        <div class="exam-answer">正确答案：abandoned</div>
+                    </div>
+                    
+                    <button class="more-exam-btn" onclick="goToExamPractice()">
+                        更多真题练习
+                    </button>
+                </div>
+            </div>
+            
+            <!-- AI例句页 -->
+            <div class="tab-content" id="exampleTab">
+                <div class="meaning-section">
+                    <div class="section-title">AI生成例句</div>
+                    <div class="meaning-item">
+                        <div class="meaning-text">Despite the difficulties, she refused to abandon her principles.</div>
+                        <div class="meaning-example">尽管困难重重，她拒绝放弃自己的原则。</div>
+                    </div>
+                    <div class="meaning-item">
+                        <div class="meaning-text">The captain was the last to abandon the sinking ship.</div>
+                        <div class="meaning-example">船长是最后一个离开沉船的人。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部工具栏 -->
+        <div class="toolbar">
+            <button class="nav-btn" onclick="prevWord()">
+                ← 上一词
+            </button>
+            
+            <button class="ai-analysis-btn" onclick="openAIAnalysis()">
+                🤖 AI分析
+            </button>
+            
+            <button class="nav-btn" onclick="nextWord()">
+                下一词 →
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // 标签页状态
+        let currentTab = 'meaning';
+        
+        // 切换标签页
+        function switchTab(tabId) {
+            // 更新标签
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 更新内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId + 'Tab').classList.add('active');
+            
+            currentTab = tabId;
+            
+            // 保存用户选择
+            localStorage.setItem('lastTab', tabId);
+            
+            console.log(`切换到标签：${tabId}`);
+        }
+        
+        // 切换AI面板
+        function toggleAIPanel() {
+            const panel = document.getElementById('aiPanel');
+            panel.classList.toggle('show');
+        }
+        
+        // 关闭AI面板（点击外部）
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('aiPanel');
+            const aiBtn = document.querySelector('.ai-btn');
+            
+            if (!panel.contains(e.target) && !aiBtn.contains(e.target)) {
+                panel.classList.remove('show');
+            }
+        });
+        
+        // AI功能
+        function openAIAnalysis() {
+            console.log("打开AI错题分析");
+            alert("跳转到AI错题分析页面");
+            // window.location.href = '10_AI分析助手.html?word=abandon';
+        }
+        
+        function openSentenceCheck() {
+            console.log("打开句子批改");
+            alert("打开句子批改功能");
+        }
+        
+        function openExampleGen() {
+            console.log("打开例句生成");
+            alert("跳转到AI例句生成");
+            // window.location.href = '11_AI例句生成.html';
+        }
+        
+        // 更多真题练习
+        function goToExamPractice() {
+            console.log("跳转到真题练习");
+            alert("跳转到'abandon'的真题专项练习");
+            // window.location.href = 'exam_practice.html?word=abandon';
+        }
+        
+        // 单词导航
+        let currentWordIndex = 5;
+        let totalWords = 20;
+        
+        function prevWord() {
+            if (currentWordIndex > 1) {
+                currentWordIndex--;
+            } else {
+                currentWordIndex = totalWords; // 循环到最后一个
+            }
+            updateWord();
+        }
+        
+        function nextWord() {
+            if (currentWordIndex < totalWords) {
+                currentWordIndex++;
+            } else {
+                currentWordIndex = 1; // 循环到第一个
+            }
+            updateWord();
+        }
+        
+        function updateWord() {
+            console.log(`切换到第${currentWordIndex}个单词`);
+            alert(`切换到第${currentWordIndex}个单词`);
+            // 实际：加载新单词数据
+        }
+        
+        // 恢复上次选择的标签
+        window.addEventListener('load', () => {
+            const lastTab = localStorage.getItem('lastTab');
+            if (lastTab && lastTab !== 'meaning') {
+                switchTab(lastTab);
+            }
+        });
+        
+        console.log("🎯 讲解页改进特点：");
+        console.log("1. AI功能入口优化：顶部导航右侧增加AI图标，点击展开常用功能");
+        console.log("2. 真题标签页增强：增加'更多真题'按钮，跳转真题练习");
+        console.log("3. 循环学习：底部导航支持循环（最后一个回到第一个）");
+        console.log("4. 标签记忆：记住用户上次选择的标签页");
+        console.log("5. 参考扇贝：词根词缀分析模块");
+        console.log("6. 参考不背单词：标签式内容组织");
+    </script>
+</body>
+</html>
