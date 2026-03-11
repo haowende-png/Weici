@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>维词APP原型演示 - 完整文件列表</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 40px; 
+            line-height: 1.6;
+            background: #f5f5f7;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #007aff;
+            border-bottom: 2px solid #007aff;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .category {
+            margin-top: 40px;
+            color: #333;
+            font-weight: 600;
+            font-size: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .page-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        
+        .page-item {
+            margin: 15px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        
+        .page-item:hover {
+            border-color: #007aff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .page-link {
+            color: #007aff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .page-link:hover {
+            text-decoration: underline;
+        }
+        
+        .page-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .page-tags {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            color: #666;
+        }
+        
+        .tag-red { background: #f8d7da; color: #721c24; }
+        .tag-blue { background: #e7f3ff; color: #007aff; }
+        .tag-green { background: #d4edda; color: #155724; }
+        .tag-orange { background: #fff3cd; color: #856404; }
+        .tag-purple { background: #e6d4f7; color: #4a1e8c; }
+        
+        .demo-guide {
+            margin-top: 40px;
+            padding: 25px;
+            background: #e7f3ff;
+            border-radius: 12px;
+            border-left: 4px solid #007aff;
+        }
+        
+        .demo-guide h3 {
+            color: #007aff;
+            margin-top: 0;
+        }
+        
+        .demo-steps {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .demo-steps li {
+            margin: 8px 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .feature-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .feature-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .file-info {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>维词APP原型演示</h1>
+        <div class="subtitle">
+            智能高考词汇学习平台 · 诊断驱动 + AI个性化 · 点击任意链接查看原型
+        </div>
+        
+        <!-- 核心用户旅程 -->
+        <div class="category">📱 核心用户旅程（推荐按此顺序查看）</div>
+        <ul class="page-list">
+            <li class="page-item">
+                <a class="page-link" href="01_新手引导与诊断页.html">01_新手引导与诊断页</a>
+                <div class="page-desc">新用户起点 · 8题快速诊断 · 简洁引导界面</div>
+                <div class="page-tags">
+                    <span class="tag tag-blue">新用户入口</span>
+                    <span class="tag">快速诊断</span>
+                </div>
+                <div class="file-info">文件: 01_新手引导与诊断页.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="02%20诊断答题页.html">02_诊断答题页</a>
+                <div class="page-desc">即时反馈系统 · 选择后立即判断对错 · 自动记录错题</div>
+                <div class="page-tags">
+                    <span class="tag tag-red">即时反馈</span>
+                    <span class="tag">错题记录</span>
+                </div>
+                <div class="file-info">文件: 02 诊断答题页.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="03_诊断报告页.html">03_诊断报告页</a>
+                <div class="page-desc">可视化诊断结果 · 标签分析进度条 · 个性化学习计划生成</div>
+                <div class="page-tags">
+                    <span class="tag tag-green">数据分析</span>
+                    <span class="tag">标签系统</span>
+                </div>
+                <div class="file-info">文件: 03_诊断报告页.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="04_新用户首页_新用户测试后.html">04_新用户首页</a>
+                <div class="page-desc">简洁首页设计 · 核心任务突出 · 学习计划预览 · 品牌标识</div>
+                <div class="page-tags">
+                    <span class="tag">首页设计</span>
+                    <span class="tag">任务管理</span>
+                </div>
+                <div class="file-info">文件: 04_新用户首页_新用户测试后.html</div>
+            </li>
+        </ul>
+        
+        <!-- 核心学习功能 -->
+        <div class="category">🎯 核心学习功能</div>
+        <ul class="page-list">
+            <li class="page-item">
+                <a class="page-link" href="05._答题页.html">05_答题页（学习核心）</a>
+                <div class="page-desc">循环学习机制 · 标签显示（一级红色标签） · 键盘快捷键支持</div>
+                <div class="page-tags">
+                    <span class="tag tag-red">循环学习</span>
+                    <span class="tag">标签显示</span>
+                    <span class="tag">键盘支持</span>
+                </div>
+                <div class="file-info">文件: 05._答题页.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="06._讲解页.html">06_讲解页</a>
+                <div class="page-desc">单词详情页面 · AI功能入口 · 标签式内容组织 · 词根词缀分析</div>
+                <div class="page-tags">
+                    <span class="tag">单词详情</span>
+                    <span class="tag tag-blue">AI入口</span>
+                    <span class="tag">内容组织</span>
+                </div>
+                <div class="file-info">文件: 06._讲解页.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="07._练习页.html">07_练习页（极简模式）</a>
+                <div class="page-desc">墨墨+扇贝混合设计 · 唯一大按钮 · 智能安排 · 极简操作 · 基于诊断结果+错题+记忆曲线</div>
+                <div class="page-tags">
+                    <span class="tag tag-orange">极简设计</span>
+                    <span class="tag">智能安排</span>
+                    <span class="tag">墨墨风格</span>
+                </div>
+                <div class="file-info">文件: 07._练习页.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="07.2_错题本列表.html">07.2_科学错题本</a>
+                <div class="page-desc">智能筛选系统 · 标签化错误分析 · AI分析入口 · 批量操作管理</div>
+                <div class="page-tags">
+                    <span class="tag tag-green">科学管理</span>
+                    <span class="tag">错题分析</span>
+                    <span class="tag">批量操作</span>
+                </div>
+                <div class="file-info">文件: 07.2_错题本列表.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="08._我的页面.html">08_我的页面</a>
+                <div class="page-desc">个人中心 · 学习数据统计 · 词书更换 · 设置管理 · 完整功能入口</div>
+                <div class="page-tags">
+                    <span class="tag">个人中心</span>
+                    <span class="tag">数据统计</span>
+                    <span class="tag">设置管理</span>
+                </div>
+                <div class="file-info">文件: 08._我的页面.html</div>
+            </li>
+        </ul>
+        
+        <!-- AI智能功能 -->
+        <div class="category">🤖 AI智能功能</div>
+        <ul class="page-list">
+            <li class="page-item">
+                <a class="page-link" href="09_AI分析助手.html">09_AI分析助手</a>
+                <div class="page-desc">错题深度分析 · 记忆建议和学习策略 · 推荐针对性练习 · 加入复习计划</div>
+                <div class="page-tags">
+                    <span class="tag tag-blue">AI分析</span>
+                    <span class="tag">深度学习</span>
+                    <span class="tag">个性化建议</span>
+                </div>
+                <div class="file-info">文件: 09_AI分析助手.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="10_AI例句生成.html">10_AI例句生成</a>
+                <div class="page-desc">AI生成例句 · 用户评分系统（五星） · 例句收藏功能 · 与讲解页整合</div>
+                <div class="page-tags">
+                    <span class="tag tag-blue">AI生成</span>
+                    <span class="tag">用户评分</span>
+                    <span class="tag">收藏功能</span>
+                </div>
+                <div class="file-info">文件: 10_AI例句生成.html</div>
+            </li>
+        </ul>
+        
+        <!-- 附加功能 -->
+        <div class="category">📊 附加功能页面</div>
+        <ul class="page-list">
+            <li class="page-item">
+                <a class="page-link" href="04.1._老用户首页_含词书快捷切换.html">04.1_老用户首页</a>
+                <div class="page-desc">优化版首页 · 参考墨墨+百词斩设计 · 词书快捷切换 · 学习数据展示</div>
+                <div class="page-tags">
+                    <span class="tag">老用户</span>
+                    <span class="tag">首页优化</span>
+                    <span class="tag">竞品参考</span>
+                </div>
+                <div class="file-info">文件: 04.1._老用户首页_含词书快捷切换.html</div>
+            </li>
+            
+            <li class="page-item">
+                <a class="page-link" href="08.1_词书选择页面.html">08.1_词书选择页面</a>
+                <div class="page-desc">词书管理 · 下载状态显示 · 搜索功能 · 确认后返回首页更新</div>
+                <div class="page-tags">
+                    <span class="tag">词书管理</span>
+                    <span class="tag">下载状态</span>
+                    <span class="tag">搜索功能</span>
+                </div>
+                <div class="file-info">文件: 08.1_词书选择页面.html</div>
+            </li>
+        </ul>
+        
+        <!-- 演示建议 -->
+        <div class="demo-guide">
+            <h3>📋 演示建议</h3>
+            <ol class="demo-steps">
+                <li><strong>按顺序演示</strong>：01 → 02 → 03 → 04 → 05（核心流程）</li>
+                <li><strong>重点展示</strong>：即时反馈（02）、标签系统（03）、AI功能（09）</li>
+                <li><strong>对比说明</strong>：新用户首页（04）vs 老用户首页（04.1）</li>
+                <li><strong>总时长</strong>：建议15-20分钟，每页1-2分钟</li>
+            </ol>
+        </div>
+        
+        <div class="footer">
+            <p>维词APP原型 · 智能高考词汇学习平台 · 最后更新：2026-03-11 17:03</p>
+            <p>总页面数：12个 · 基于实际文件列表生成</p>
+        </div>
+    </div>
+    
+    <script>
+        // 页面访问统计
+        console.log("维词APP原型文件列表已加载");
+        console.log("总页面数：" + document.querySelectorAll('.page-link').length);
+        console.log("特色功能：即时反馈、循环学习、标签系统、AI分析");
+        
+        // 添加点击跟踪
+        document.querySelectorAll('.page-link').forEach(link => {
+            link.addEventListener('click', function() {
+                console.log("访问页面：" + this.textContent);
+                // 记录访问时间
+                const now = new Date();
+                console.log("访问时间：" + now.toLocaleTimeString());
+            });
+        });
+        
+        // 显示当前时间
+        const now = new Date();
+        console.log("页面加载时间：" + now.toLocaleString('zh-CN'));
+        
+        // 检查文件链接有效性
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("页面已完全加载，所有链接可用");
+            
+            // 添加键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + / 显示帮助
+                if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                    e.preventDefault();
+                    alert("快捷键帮助：\n• 点击任意链接查看原型\n• Ctrl/Cmd + / 显示此帮助\n• ESC 关闭弹窗");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
